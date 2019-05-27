@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jovo.vehicleinfo.dao.VehicleDao">
+    <!--
+                     _ooOoo_
+                    o8888888o
+                    88" . "88
+                    (| -_- |)
+                     O\ = /O
+                 ____/`- -'\____
+               .   ' \\| |// `.
+                / \\||| : |||// \
+              / _||||| -:- |||||- \
+                | | \\\ - /// | |
+              | \_| ''\-/'' | |
+               \ .-\__ `-` ___/-. /
+            ___`. .' /-.—-\ `. . __
+         ."" '< `.___\_<|>_/___.' >'"".
+        | | : `- \`.;`\ _ /`;.`/ - ` : | |
+          \ \ `-. \_ __\ /__ _/ .-` / /
+  	======`-.____`-.___\_____/___.-`____.-'======
+                     `=- -='
+  .............................................
+           佛祖保佑             永无BUG
+  I am not sure why this works but it fixes the problem.
+  虽然我不知道为什么一定要加jdbcType，而且大小写敏感，但它却是修复了问题
+ -->
+    <!--向数据库插入车辆行驶信息-->
+    <!--<insert id="insertVehicle" parameterType="vehicle">
+        insert into VERCHICLE(registrationno, drivername, alarmkindname, gpsspeed, latitude_d, longitude_d, alarmtime, ideaid, dealtime, transact_result, dealcontent)
+        values (#{registrationNo,jdbcType=VARCHAR}, #{driverName,jdbcType=VARCHAR}, #{alarmKindName,jdbcType=VARCHAR}, #{gpsSpeed,jdbcType=DOUBLE}, #{latitude_D,jdbcType=DOUBLE}, #{longitude_D,jdbcType=DOUBLE}, #{alarmTime,jdbcType=VARCHAR}, #{ideaId,jdbcType=INTEGER}, #{dealTime,jdbcType=VARCHAR}, #{transact_result,jdbcType=VARCHAR}, #{dealContent,jdbcType=VARCHAR})
+    </insert>-->
+
+    <insert id="insertVehicle" useGeneratedKeys="false" parameterType="List">
+      insert into VEHICLE(registrationno, drivername, alarmkindname, gpsspeed, latitude_d, longitude_d, alarmtime, ideaid, dealtime, transact_result, dealcontent)
+      <foreach open="(" close=")" collection="list" item="item" separator="union all">
+          select
+            #{item.registrationNo,jdbcType=VARCHAR},
+            #{item.driverName,jdbcType=VARCHAR},
+            #{item.alarmKindName,jdbcType=VARCHAR},
+            #{item.gpsSpeed,jdbcType=DOUBLE},
+            #{item.latitude_D,jdbcType=DOUBLE},
+            #{item.longitude_D,jdbcType=DOUBLE},
+            #{item.alarmTime,jdbcType=VARCHAR},
+            #{item.ideaId,jdbcType=INTEGER},
+            #{item.dealTime,jdbcType=VARCHAR},
+            #{item.transact_result,jdbcType=VARCHAR},
+            #{item.dealContent,jdbcType=VARCHAR}
+          from dual
+      </foreach>
+    </insert>
+</mapper>

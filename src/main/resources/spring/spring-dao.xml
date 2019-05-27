@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!--读取db.properties-->
+    <context:property-placeholder location="classpath:db.properties" ignore-resource-not-found="true"/>
+    <!--配置数据源-->
+    <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource">
+        <!--数据库驱动-->
+        <property name="driverClassName" value="${ojdbc.driverClassName}"/>
+        <!--连接数据库的url-->
+        <property name="url" value="${ojdbc.url}"/>
+        <!--用户名-->
+        <property name="username" value="${ojdbc.username}"/>
+        <!--密码-->
+        <property name="password" value="${ojdbc.password}"/>
+        <!--定义初始连接数-->
+        <property name="initialSize" value="${ojdbc.initialSize}"/>
+        <!--定义最大空闲-->
+        <property name="maxIdle" value="${ojdbc.maxIdle}"/>
+        <!--定义最小空闲空间-->
+        <property name="minIdle" value="${ojdbc.minIdle}"/>
+        <!--定义最长等待时间-->
+        <property name="maxWaitMillis" value="${ojdbc.maxWait}"/>
+    </bean>
+
+</beans>
